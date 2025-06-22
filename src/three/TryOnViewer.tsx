@@ -4,11 +4,17 @@ import { OrbitControls, useGLTF } from '@react-three/drei';
 import useBodyStore from '../zustand/useBodyStore';
 import { useLocation } from 'react-router-dom';
 
+declare global {
+  interface ImportMeta {
+    env: Record<string, string>;
+  }
+}
+
 function getAvatarPath(gender: string, height: number) {
-  return `/models/avatars/${gender}_${height}.glb`;
+  return `${import.meta.env.BASE_URL}models/avatars/${gender}_${height}.glb`;
 }
 function getClothingPath(product: string) {
-  return `/models/clothes/${product}.glb`;
+  return `${import.meta.env.BASE_URL}models/clothes/${product}.glb`;
 }
 
 const AvatarModel: React.FC<{ url: string }> = ({ url }) => {
@@ -75,7 +81,7 @@ const TryOnViewer: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full flex flex-col items-center justify-center">
       {/* Fallback overlays */}
       {avatarError && (
         <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
